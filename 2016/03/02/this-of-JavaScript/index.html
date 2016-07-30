@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>The `this` keyword in JavaScript | MoZhonglin&#39;s Techblog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Many OOP language provide this to reference instance at runtime, as well as JavaScript. Because of the dynamic feature of JS, figuring out what this points to can be hard sometimes. This passage is ai">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The `this` keyword in JavaScript">
+<meta property="og:url" content="http://mozhonglin.github.io/2016/03/02/this-of-JavaScript/index.html">
+<meta property="og:site_name" content="MoZhonglin's Techblog">
+<meta property="og:description" content="Many OOP language provide this to reference instance at runtime, as well as JavaScript. Because of the dynamic feature of JS, figuring out what this points to can be hard sometimes. This passage is ai">
+<meta property="og:updated_time" content="2016-07-30T10:25:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The `this` keyword in JavaScript">
+<meta name="twitter:description" content="Many OOP language provide this to reference instance at runtime, as well as JavaScript. Because of the dynamic feature of JS, figuring out what this points to can be hard sometimes. This passage is ai">
+  
+    <link rel="alternative" href="/atom.xml" title="MoZhonglin&#39;s Techblog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://nighteagle-wordpress.stor.sinaapp.com/uploads/2015/09/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Mo Zhonglin</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">HOME PAGE</a></li>
+				        
+							<li><a href="/archives">ALL POSTS</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/MoZhonglin" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/mozhonglin" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/mozhonglin" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Mo Zhonglin</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="http://nighteagle-wordpress.stor.sinaapp.com/uploads/2015/09/avatar.png" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Mo Zhonglin</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">HOME PAGE</a></li>
+		        
+					<li><a href="/archives">ALL POSTS</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/MoZhonglin" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/mozhonglin" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/mozhonglin" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-this-of-JavaScript" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/02/this-of-JavaScript/" class="article-date">
+  	<time datetime="2016-03-02T03:31:24.000Z" itemprop="datePublished">2016-03-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      The `this` keyword in JavaScript
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Many OOP language provide <code>this</code> to reference instance at runtime, as well as JavaScript. Because of the dynamic feature of JS, figuring out what <code>this</code> points to can be hard sometimes. This passage is aiming at helping to assert <code>this</code> in different contexts.  </p>
+<h3 id="The-Fundamental"><a href="#The-Fundamental" class="headerlink" title="The Fundamental"></a>The Fundamental</h3><p>The <code>this</code> keyword points to the current execution context at most time. That sounds obscure, but don’t worry. Let’s see some examples to understand it.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line">obj.func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(obj === obj.func());   <span class="comment">// output: true</span></span><br></pre></td></tr></table></figure>
+<p>As we can see, <code>this</code> points to the obj. The function <code>func</code> is invoked by <code>obj.func()</code>, so the execution context is <code>obj</code>.</p>
+<p>Then, what will <code>this</code> evaluates without any function wrapped?<br>Actually, the global object(<code>global</code> in NodeJS and <code>window</code> in browsers) is the execution context in this situation. Following snippet confirms that.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test in browsers console</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span> === <span class="built_in">window</span>);   <span class="comment">// output: true</span></span><br></pre></td></tr></table></figure>
+<h3 id="In-Event-Handlers"><a href="#In-Event-Handlers" class="headerlink" title="In Event Handlers"></a>In Event Handlers</h3><p>In DOM event handlers, <code>this</code> points to the triggered event.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">eventHandler</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span> === e.currentTarget);   <span class="comment">// when triggerd, output: true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> elem = <span class="built_in">document</span>.getElementById(<span class="string">'testElem'</span>);   <span class="comment">// suppose we have an element whose id is testElem</span></span><br><span class="line">elem.addEventListener(<span class="string">'click'</span>, eventHandler);</span><br></pre></td></tr></table></figure></p>
+<p>While in inline event handlers, <code>this</code> points to correspond element.<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">'#'</span> <span class="attr">onclick</span>=<span class="string">"console.log(this.tagName)"</span>&gt;</span>test<span class="tag">&lt;/<span class="name">a</span>&gt;</span>   <span class="comment">&lt;!-- when clicked, output: a --&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="In-Constructors"><a href="#In-Constructors" class="headerlink" title="In Constructors"></a>In Constructors</h3><p>When a function is used as a constructor, <code>this</code> will point to the new object being constructed.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.a = <span class="string">'test'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> func();</span><br><span class="line"><span class="built_in">console</span>.log(obj.a);   <span class="comment">// output: test</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Do-Something-Magic"><a href="#Do-Something-Magic" class="headerlink" title="Do Something Magic"></a>Do Something Magic</h3><p>In the first section of this passage, I say <code>... at most time</code>. In this section, I’d like to show you how to change the usual behavior of <code>this</code>.</p>
+<h5 id="apply-amp-call"><a href="#apply-amp-call" class="headerlink" title="apply &amp; call"></a>apply &amp; call</h5><p>We can bind <code>this</code> to a particular object by <code>apply</code> or <code>call</code> function.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.part1 + <span class="keyword">this</span>.part2;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;part1: <span class="string">'Hello, '</span>, part2: <span class="string">'world!'</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(concat.apply(obj));   <span class="comment">//output: Hello, world!</span></span><br></pre></td></tr></table></figure></p>
+<p>We can figure out that <code>concat</code> and <code>obj</code> have no relationship when they are defined, but by using <code>apply</code> we can set <code>this</code> in <code>concat</code> points to <code>obj</code>!</p>
+<p>When there is no parameter in function, <code>call</code> behaves as well as <code>apply</code>; the only difference between them is that <code>apply</code> accept an array as parameters while <code>call</code> accept a parameters sequence.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">concat</span>(<span class="params">part3, part4</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.part1 + <span class="keyword">this</span>.part2 + part3 + part4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;part1: <span class="string">'Hello, '</span>, part2: <span class="string">'world!'</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//   the following two statements are equivalent</span></span><br><span class="line"><span class="built_in">console</span>.log(concat.apply(obj, [<span class="string">' It\'s '</span>, <span class="string">'fun!'</span>]));   <span class="comment">//output: Hello, world! It's fun!</span></span><br><span class="line"><span class="built_in">console</span>.log(concat.call(obj, <span class="string">' It\'s '</span>, <span class="string">'fun!'</span>));   <span class="comment">//output: Hello, world! It's fun!</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h5><p>There is also a method to assign a function to an object permanently.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> binded = func.bind(obj);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj === binded());   <span class="comment">// output: true</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="this-of-JavaScript" data-title="The `this` keyword in JavaScript" data-url="http://mozhonglin.github.io/2016/03/02/this-of-JavaScript/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"mozhonglin"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Mo Zhonglin
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
